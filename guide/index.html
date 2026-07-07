@@ -1,0 +1,366 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Guide — How this redesign was made</title>
+<meta name="description" content="A section-by-section account of how and why Claude (Fable 5) redesigned this site: concept, color, typography, shaders, motion, and three iteration passes.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M16 2c0 7.7-6.3 14-14 14 7.7 0 14 6.3 14 14 0-7.7 6.3-14 14-14-7.7 0-14-6.3-14-14z' fill='%2329ABC4'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anybody:wdth,wght@50..150,100..900&family=Archivo:wght@300;400;500;600&family=Spline+Sans+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --void: oklch(12% 0.028 292);
+  --void-2: oklch(15% 0.035 290);
+  --surface: oklch(18% 0.042 288);
+  --line: oklch(32% 0.04 288 / 0.5);
+  --line-soft: oklch(32% 0.04 288 / 0.25);
+  --ink: oklch(95% 0.006 95);
+  --ink-2: oklch(78% 0.014 290);
+  --ink-3: oklch(60% 0.02 290);
+  --cyan: oklch(74% 0.115 215);
+  --ember: oklch(72% 0.155 55);
+  --font-d: "Anybody", sans-serif;
+  --font-b: "Archivo", sans-serif;
+  --font-m: "Spline Sans Mono", monospace;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  background: var(--void); color: var(--ink);
+  font-family: var(--font-b); font-size: 16.5px; line-height: 1.75;
+  -webkit-font-smoothing: antialiased;
+}
+::selection { background: var(--cyan); color: var(--void); }
+.mono { font-family: var(--font-m); letter-spacing: 0.08em; }
+a { color: var(--cyan); text-decoration-thickness: 1px; text-underline-offset: 3px; }
+:focus-visible { outline: 2px solid var(--cyan); outline-offset: 3px; }
+
+.wrap { max-width: 760px; margin: 0 auto; padding: 0 24px; }
+
+header.top {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 22px clamp(20px, 5vw, 88px);
+  border-bottom: 1px solid var(--line-soft);
+}
+.brand { display: flex; align-items: baseline; gap: 5px; text-decoration: none; color: var(--ink); }
+.brand b { font-family: var(--font-d); font-weight: 640; font-stretch: 110%; font-size: 20px; letter-spacing: -0.01em; }
+.spark { color: var(--cyan); }
+.back { font-family: var(--font-m); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink-2); text-decoration: none; }
+.back:hover { color: var(--cyan); }
+
+.hero { padding: clamp(80px, 14vh, 150px) 24px clamp(50px, 8vh, 90px); max-width: 1020px; margin: 0 auto; }
+.hero .kicker { font-family: var(--font-m); font-size: 11.5px; letter-spacing: 0.24em; color: var(--cyan); text-transform: uppercase; margin-bottom: 26px; }
+h1 {
+  font-family: var(--font-d); font-weight: 780; font-stretch: 108%;
+  font-size: clamp(38px, 7vw, 88px); line-height: 1.0; letter-spacing: -0.012em; text-transform: uppercase;
+}
+.hero .standfirst { max-width: 62ch; color: var(--ink-2); margin-top: 30px; font-size: clamp(16px, 1.3vw, 19px); }
+.hero .meta { margin-top: 34px; font-size: 11px; color: var(--ink-3); letter-spacing: 0.16em; }
+
+.toc { border-top: 1px solid var(--line-soft); border-bottom: 1px solid var(--line-soft); padding: 26px 24px; }
+.toc ol {
+  max-width: 1020px; margin: 0 auto; list-style: none;
+  display: flex; flex-wrap: wrap; gap: 10px 34px;
+}
+.toc a { font-family: var(--font-m); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-3); text-decoration: none; }
+.toc a:hover { color: var(--cyan); }
+
+section.ch { padding: clamp(64px, 10vh, 110px) 0; border-bottom: 1px solid var(--line-soft); }
+.ch .idx { font-family: var(--font-m); font-size: 11px; letter-spacing: 0.22em; color: var(--cyan); margin-bottom: 16px; }
+h2 {
+  font-family: var(--font-d); font-weight: 700; font-stretch: 104%;
+  font-size: clamp(26px, 3.4vw, 44px); line-height: 1.05; letter-spacing: -0.008em;
+  text-transform: uppercase; margin-bottom: 28px;
+}
+h3 { font-size: 18px; font-weight: 600; margin: 36px 0 12px; }
+p + p { margin-top: 18px; }
+.ch p { color: var(--ink-2); max-width: 68ch; }
+.ch strong { color: var(--ink); font-weight: 600; }
+.ch em { color: var(--ink); }
+
+figure.shot { margin: 36px 0 10px; }
+figure.shot img { width: 100%; height: auto; display: block; border-radius: 4px; border: 1px solid var(--line-soft); }
+figure.shot figcaption { font-family: var(--font-m); font-size: 10.5px; letter-spacing: 0.16em; color: var(--ink-3); margin-top: 12px; }
+
+.swatches { display: flex; flex-wrap: wrap; gap: 10px; margin: 30px 0 8px; }
+.sw { width: 132px; border: 1px solid var(--line-soft); border-radius: 4px; overflow: hidden; }
+.sw i { display: block; height: 74px; }
+.sw span { display: block; padding: 9px 11px; font-family: var(--font-m); font-size: 9.5px; letter-spacing: 0.1em; color: var(--ink-3); line-height: 1.5; }
+
+pre {
+  background: oklch(9% 0.02 292); border: 1px solid var(--line-soft); border-radius: 5px;
+  padding: 22px 24px; overflow-x: auto; margin: 28px 0;
+  font-family: var(--font-m); font-size: 12.5px; line-height: 1.7; color: var(--ink-2);
+}
+pre .c { color: var(--ink-3); } pre .k { color: var(--cyan); } pre .e { color: var(--ember); }
+
+.typespec { margin: 30px 0; border: 1px solid var(--line-soft); border-radius: 5px; padding: 30px; display: grid; gap: 22px; }
+.typespec .t1 { font-family: var(--font-d); font-weight: 800; font-stretch: 125%; font-size: clamp(26px,4vw,44px); text-transform: uppercase; line-height: 1; }
+.typespec .t1b { font-family: var(--font-d); font-weight: 300; font-stretch: 72%; font-size: clamp(26px,4vw,44px); text-transform: uppercase; line-height: 1; color: var(--ink-2); }
+.typespec .t2 { font-size: 16px; color: var(--ink-2); }
+.typespec .t3 { font-family: var(--font-m); font-size: 12px; letter-spacing: 0.18em; color: var(--cyan); }
+.typespec small { font-family: var(--font-m); font-size: 9.5px; letter-spacing: 0.12em; color: var(--ink-3); display: block; margin-top: 6px; }
+
+ul.plain { list-style: none; margin: 18px 0; display: grid; gap: 12px; max-width: 68ch; }
+ul.plain li { color: var(--ink-2); padding-left: 22px; position: relative; }
+ul.plain li::before { content: "✦"; position: absolute; left: 0; top: 0; color: var(--cyan); font-size: 11px; }
+
+.pass { border: 1px solid var(--line-soft); border-radius: 5px; padding: 28px 30px; margin: 24px 0; }
+.pass .ph { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; margin-bottom: 14px; }
+.pass .ph b { font-family: var(--font-d); font-weight: 700; font-stretch: 106%; font-size: 19px; text-transform: uppercase; letter-spacing: 0.01em; }
+.pass .ph span { font-family: var(--font-m); font-size: 10px; letter-spacing: 0.18em; color: var(--ink-3); }
+.pass ul { list-style: none; display: grid; gap: 10px; }
+.pass li { color: var(--ink-2); font-size: 15px; padding-left: 20px; position: relative; }
+.pass li::before { content: "→"; position: absolute; left: 0; color: var(--cyan); }
+
+footer { padding: 70px 24px 40px; }
+footer .inner { max-width: 1020px; margin: 0 auto; display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+footer p { font-family: var(--font-m); font-size: 10.5px; letter-spacing: 0.16em; color: var(--ink-3); }
+footer a { color: var(--ink-2); }
+
+@media (max-width: 600px) { .typespec { padding: 20px; } }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <a class="brand" href="../"><b>ivalua</b><svg class="spark" viewBox="0 0 32 32" width="11" height="11" aria-hidden="true"><path d="M16 2c0 7.7-6.3 14-14 14 7.7 0 14 6.3 14 14 0-7.7 6.3-14 14-14-7.7 0-14-6.3-14-14z" fill="currentColor"/></svg></a>
+  <a class="back" href="../">← Back to the site</a>
+</header>
+
+<div class="hero">
+  <p class="kicker">The Guide — process notes</p>
+  <h1>How this<br>was made</h1>
+  <p class="standfirst">This site was redesigned end-to-end by <strong>Claude (Fable 5)</strong> in a single
+  autonomous session: concept, palette, typography, custom shaders, motion system, AI-generated
+  assets, three full iteration passes, and deployment. This page is the honest account of every
+  decision, so you can judge the choices, not just the surface.</p>
+  <p class="meta mono">JULY 2026 · ONE SESSION · NO TEMPLATES · NO HUMAN EDITS</p>
+</div>
+
+<nav class="toc" aria-label="Contents">
+  <ol>
+    <li><a href="#start">01 Starting point</a></li>
+    <li><a href="#concept">02 Concept</a></li>
+    <li><a href="#color">03 Color</a></li>
+    <li><a href="#type">04 Typography</a></li>
+    <li><a href="#shader">05 The shader</a></li>
+    <li><a href="#motion">06 Motion</a></li>
+    <li><a href="#ai">07 AI assets</a></li>
+    <li><a href="#a11y">08 Access &amp; speed</a></li>
+    <li><a href="#passes">09 Iteration passes</a></li>
+    <li><a href="#colophon">10 Colophon</a></li>
+  </ol>
+</nav>
+
+<main class="wrap">
+
+<section class="ch" id="start">
+  <p class="idx">01</p>
+  <h2>The starting point</h2>
+  <p>The previous version of this site was a light-first enterprise homepage: warm bone surfaces,
+  Ivalua indigo drench sections, Manrope throughout, in the Linear/Stripe lane. It was competent
+  and calm. The brief this time was different: make something <em>fundamentally</em> different that
+  demonstrates what an AI can do with taste, 3D, and motion, without abandoning the brand.</p>
+  <figure class="shot">
+    <img src="../assets/before-hero.jpg" alt="The previous site: a light bone-colored enterprise homepage with indigo hero, Manrope type, and a platform screenshot mock" loading="lazy">
+    <figcaption>BEFORE — THE PREVIOUS BUILD'S HERO: AN INDIGO DRENCH ON AN OTHERWISE LIGHT, BONE-COLORED PAGE. MANROPE, PILL BUTTONS, PRODUCT MOCK. COMPETENT, AND EXACTLY WHAT YOU'D EXPECT.</figcaption>
+  </figure>
+  <p>So the redesign is a deliberate inversion. Where the old site was daylight, this one is night.
+  Where the old site decorated sections with static gradients, this one runs a single live shader
+  under the whole page. What survives untouched: Ivalua's actual hues (indigo, teal, cyan, ember
+  orange), the sparkle glyph from the wordmark, the tagline, and the rule that orange belongs
+  exclusively to IVA, the AI agent.</p>
+</section>
+
+<section class="ch" id="concept">
+  <p class="idx">02</p>
+  <h2>Concept: The Current</h2>
+  <p>Procurement platforms manage flows: money, goods, risk, trust. The concept treats enterprise
+  spend as a <strong>living current of light</strong> moving through darkness, and Ivalua as the
+  instrument that makes it visible and navigable. Every design decision hangs off this one metaphor:</p>
+  <ul class="plain">
+    <li>The WebGL background is a literal current: filaments of teal light flowing horizontally.</li>
+    <li>Scrolling the page is travelling down the river: the hero is bright open water, the narrative sections are deep and calm, and the final CTA is the current resurfacing.</li>
+    <li>IVA appears as heat in the water: the only warm element in a cold world.</li>
+    <li>The stats section is titled "The current, measured" and set as a ledger, not a card grid.</li>
+  </ul>
+  <p>One metaphor, enforced everywhere, is what separates an art-directed site from a themed
+  template. When a decision didn't serve the current, it was cut.</p>
+</section>
+
+<section class="ch" id="color">
+  <p class="idx">03</p>
+  <h2>Color</h2>
+  <p>The palette is defined in <strong>OKLCH</strong> so lightness and chroma can be reasoned about
+  perceptually. Every neutral is tinted toward the brand indigo (hue ≈ 292°); there is no pure
+  black or white anywhere on the page. Brand hues were preserved but re-tuned for luminosity on
+  dark ground.</p>
+  <div class="swatches">
+    <div class="sw"><i style="background:oklch(12% 0.028 292)"></i><span>VOID<br>oklch(12% .028 292)</span></div>
+    <div class="sw"><i style="background:oklch(20% 0.045 288)"></i><span>SURFACE<br>oklch(20% .045 288)</span></div>
+    <div class="sw"><i style="background:oklch(95% 0.006 95)"></i><span>INK<br>oklch(95% .006 95)</span></div>
+    <div class="sw"><i style="background:oklch(74% 0.115 215)"></i><span>CYAN · SIGNATURE<br>oklch(74% .115 215)</span></div>
+    <div class="sw"><i style="background:oklch(58% 0.1 220)"></i><span>TEAL<br>oklch(58% .1 220)</span></div>
+    <div class="sw"><i style="background:oklch(72% 0.155 55)"></i><span>EMBER · IVA ONLY<br>oklch(72% .155 55)</span></div>
+    <div class="sw"><i style="background:oklch(96% 0.011 95)"></i><span>BONE · INTERLUDE<br>oklch(96% .011 95)</span></div>
+  </div>
+  <p>Two rules give the palette its discipline. First, <strong>ember is rationed</strong>: it appears
+  only where IVA acts (the agent section, the rare warm filament in the shader). By the time you
+  reach the console demo, orange means "the AI is doing something" without a label. Second, the page
+  keeps <strong>one light interlude</strong>: the customer-proof section flips to warm bone. A single
+  inversion mid-scroll resets the eye and makes both worlds read as intentional.</p>
+</section>
+
+<section class="ch" id="type">
+  <p class="idx">04</p>
+  <h2>Typography</h2>
+  <p>Three families, each with one job:</p>
+  <div class="typespec">
+    <div><span class="t1">Anybody — display</span><small>VARIABLE: WIDTH 50–150% · WEIGHT 100–900. HEADLINES ANIMATE ALONG THE WIDTH AXIS AS YOU SCROLL.</small></div>
+    <div><span class="t1b">The same family, compressed &amp; light</span><small>THE NARRATIVE SECTION USES ANYBODY AT 92% WIDTH, 300 WEIGHT: SAME VOICE, LOWERED.</small></div>
+    <div><span class="t2">Archivo carries body copy: a plain-spoken grotesk that stays out of the display face's way.</span><small>ARCHIVO 300–600</small></div>
+    <div><span class="t3">SPLINE SANS MONO HANDLES DATA: TICKERS, COORDINATES, CONSOLE OUTPUT.</span><small>THE "INSTRUMENT READOUT" LAYER OF THE INTERFACE</small></div>
+  </div>
+  <p>The point of <strong>Anybody</strong> is its variable width axis. The hero headline enters at
+  115% width and compresses to 72% as it leaves the viewport, so the type itself behaves like matter
+  in the current: the page's one typographic special effect, driven by scroll position rather than
+  a looping animation. The previous site's Manrope was retired: a rounded friendly sans had no place
+  in a nocturnal instrument.</p>
+</section>
+
+<section class="ch" id="shader">
+  <p class="idx">05</p>
+  <h2>The shader</h2>
+  <p>The background is <strong>one fragment shader on one fixed canvas</strong>: no Three.js, no
+  scene graph, just raw WebGL drawing a single triangle. The field is built from domain-warped
+  fractal Brownian motion: noise fed through itself twice, then shaped into filament ridges that
+  flow horizontally.</p>
+<pre><span class="c">// two warp passes, then ridge extraction</span>
+w1 = vec2(fbm(q + t), fbm(q + vec2(5.2, 1.3) - t*0.7));
+w2 = vec2(fbm(q + 3.5*w1 + ...), fbm(q + 3.5*w1 + ...));
+f  = fbm(q + 3.0*w2);
+fil = pow(1.0 - abs(sin(f*9.0 + q.x*2.0 - t)), <span class="k">6.0</span>);</pre>
+  <p>Three uniforms tie it to the page instead of letting it run as a screensaver:</p>
+  <ul class="plain">
+    <li><strong>uGlow</strong> — brightness follows scroll: full in the hero, dimmed to 18% through the reading sections, rising again at the CTA. The shader is the narrator, not wallpaper.</li>
+    <li><strong>uEmber</strong> — warm filaments fade in only as the IVA section approaches the viewport center: the same color law as the UI, enforced inside the GLSL.</li>
+    <li><strong>uMouse</strong> — the field drifts a few degrees toward the cursor, eased at 4% per frame, so it feels aware without being twitchy.</li>
+  </ul>
+  <p>Anti-aniso trick: the noise space is stretched (x·0.55, y·2.1) so ridges elongate horizontally
+  and read as a current rather than clouds. A vertical falloff band keeps the field calm behind
+  text zones. Resolution is capped at 1.5× DPR and the loop pauses when the tab is hidden.</p>
+</section>
+
+<section class="ch" id="motion">
+  <p class="idx">06</p>
+  <h2>Motion</h2>
+  <p>Scroll is the timeline. Lenis supplies inertial scrolling; GSAP ScrollTrigger choreographs
+  everything against it. The system, top to bottom:</p>
+  <ul class="plain">
+    <li><strong>Entrance</strong> — a sub-1.6s counter veil while fonts and the shader warm up, then the headline rises line-by-line from clipped containers. The veil has a hard timeout: it can never hold the page hostage.</li>
+    <li><strong>The Shift</strong> — a pinned viewport where three statements pass through as you scroll, each illuminating word-by-word. Reading speed becomes scroll speed: the visitor performs the copy.</li>
+    <li><strong>Platform</strong> — vertical scroll converts to horizontal travel through the four product chambers, with 3D pointer tilt on each plate. Falls back to a vertical stack on touch widths.</li>
+    <li><strong>Console</strong> — IVA's demo types its own query when it enters the viewport, once, then yields structured answers with staggered reveals.</li>
+    <li><strong>Ledger</strong> — figures count up with exponential easing: fast approach, gentle landing, tabular numerals so digits don't jitter.</li>
+  </ul>
+  <p>Everything eases with expo-out curves; nothing bounces. And every effect checks
+  <strong>prefers-reduced-motion</strong> first: with it set, the shader renders one static frame,
+  pins unroll into normal document flow, and all copy is simply visible.</p>
+</section>
+
+<section class="ch" id="ai">
+  <p class="idx">07</p>
+  <h2>AI-generated assets</h2>
+  <p>Two images were generated with <strong>GPT Image 2</strong> (via Higgsfield), art-directed by
+  prompt to match the palette exactly: deep indigo void, cyan rim light, ember interior.</p>
+  <figure class="shot">
+    <img src="../assets/relic.webp" alt="Obsidian glass torus knot glowing with internal amber light" loading="lazy">
+    <figcaption>FIG. 01 — "THE AGENT, RENDERED." OBSIDIAN TORUS KNOT, USED IN THE IVA SECTION. THE KNOT IS THE METAPHOR: TANGLED SUPPLY RELATIONSHIPS HOLDING LIGHT.</figcaption>
+  </figure>
+  <figure class="shot">
+    <img src="../assets/og-current.webp" alt="Luminous cyan threads flowing across an indigo void like a river delta seen from orbit" loading="lazy">
+    <figcaption>FIG. 02 — "THE CURRENT, FROM ORBIT." USED AS THE SOCIAL SHARE IMAGE: THE WHOLE CONCEPT IN ONE FRAME.</figcaption>
+  </figure>
+  <p>Everything else on the page: glyphs, the sparkle, the console, the grain: is hand-built
+  SVG, CSS, or GLSL. Generated imagery is used where photography would be, never as a substitute
+  for design.</p>
+</section>
+
+<section class="ch" id="a11y">
+  <p class="idx">08</p>
+  <h2>Accessibility &amp; speed</h2>
+  <ul class="plain">
+    <li>Reduced motion collapses every animation, including the WebGL loop, to a static, fully readable page.</li>
+    <li>The animated console is also a single <em>role="img"</em> with a prose description, so screen readers get the story without the typing theater.</li>
+    <li>Contrast: ink on void ≈ 15:1; cyan on void ≈ 9:1; all mono metadata stays above 4.5:1.</li>
+    <li>Semantic landmarks, skip link, focus-visible rings in signature cyan, real links everywhere.</li>
+    <li>No build step, three small files, two AI images (lazy-loaded WebP), fonts subset by Google Fonts. The shader costs one draw call per frame and sleeps when the tab hides.</li>
+  </ul>
+</section>
+
+<section class="ch" id="passes">
+  <p class="idx">09</p>
+  <h2>Three iteration passes</h2>
+  <p>After the first complete build, the site went through three full fine-toothed-comb passes:
+  live in a browser, at desktop and mobile widths, with console and layout instrumentation. What
+  each pass caught:</p>
+
+  <div class="pass">
+    <div class="ph"><b>Pass one — structure</b><span>FIND WHAT'S BROKEN</span></div>
+    <ul id="pass1">
+      <li>"YOUR SPEND" clipped inside its reveal container at 375px: the fluid type floor was too high. Lowered the clamp floor from 52px to 41px.</li>
+      <li>The fixed nav kept its dark scheme while floating over the light proof section, reading as a muddy gray bar. Added a scroll observer that flips the nav to a bone/dark-ink scheme exactly while it overlaps that section.</li>
+      <li>The pinned narrative statements sat in the top third of the viewport, leaving dead space below. Statements are now optically centered in the pin.</li>
+      <li>The stats ledger ended in a hard horizontal seam against the CTA's live shader. Its background now dissolves to transparent over the last quarter.</li>
+      <li>The loader veil replayed on every visit. It now shows once per session; returning visitors go straight to the headline choreography.</li>
+      <li>CTA microcopy sat below comfortable contrast on the brightened shader. Raised one step on the ink scale.</li>
+    </ul>
+  </div>
+  <div class="pass">
+    <div class="ph"><b>Pass two — design</b><span>FIND WHAT'S WEAK</span></div>
+    <ul id="pass2">
+      <li>The proof interlude was typographically strong but spatially empty. Added a monumental, nearly-invisible brand sparkle on the right: the one place the logo glyph appears at architectural scale.</li>
+      <li>The four ledger figures were equal in weight, so none led. The spend figure ($2.1T, the number that defines the company) now carries the signature cyan.</li>
+      <li>Platform plates tilted but didn't respond to light. Added a cursor-tracked cyan sheen inside each plate, matched to the tilt.</li>
+      <li>The scroll cue read as static text. Its arrow now breathes on a slow sine loop.</li>
+      <li>Verified the variable-width scrub does real work: the hero headline measures 115% width at rest and compresses below 81% mid-exit.</li>
+      <li>Added the before/after evidence to this guide: process claims are cheap without receipts.</li>
+    </ul>
+  </div>
+  <div class="pass">
+    <div class="ph"><b>Pass three — polish</b><span>FIND WHAT'S ALMOST</span></div>
+    <ul id="pass3">
+      <li>Visitors with JavaScript disabled were trapped behind the loader veil. A noscript layer now hides the veil, reveals all copy, and unrolls the pinned sections into normal flow.</li>
+      <li>Below 900px the nav links disappeared entirely; the Guide link now survives at every width.</li>
+      <li>The narrative's first statement was invisible at the exact moment its section pinned. It now arrives already on stage, and unlit words hold 20% presence instead of 13%.</li>
+      <li>The shader canvas under-covered the viewport by a scrollbar's width at tablet sizes. Re-sized against true viewport units.</li>
+      <li>Anchor navigation fought the inertial scroll with instant jumps. Anchors now glide on the same easing as everything else.</li>
+      <li>Added social-share metadata, and a final sweep at 375, 768, and 1280+ widths with a clean console at every stop.</li>
+    </ul>
+  </div>
+</section>
+
+<section class="ch" id="colophon" style="border-bottom:0">
+  <p class="idx">10</p>
+  <h2>Colophon</h2>
+  <p>Designed and built by <strong>Claude (Fable 5)</strong>, Anthropic's frontier model, working
+  autonomously in Claude Code: research, art direction, GLSL, motion, copy, QA passes, and the
+  Netlify deployment, in one continuous session. Type: Anybody, Archivo, Spline Sans Mono (Google
+  Fonts). Motion: GSAP ScrollTrigger + Lenis. Imagery: GPT Image 2 via Higgsfield. Everything else:
+  hand-written HTML, CSS, and WebGL.</p>
+  <p class="mono" style="margin-top:28px; font-size:11px; letter-spacing:0.2em; color:var(--ink-3)">BUILT JULY 2026 · #LOVEPROCUREMENT</p>
+</section>
+
+</main>
+
+<footer>
+  <div class="inner">
+    <p>© 2026 IVALUA — A DESIGN CAPABILITY STUDY</p>
+    <p><a href="../">RETURN TO THE CURRENT →</a></p>
+  </div>
+</footer>
+
+</body>
+</html>

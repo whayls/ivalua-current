@@ -1,0 +1,265 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ivalua — The Enterprise AI Platform for Procurement</title>
+<meta name="description" content="Beneath every enterprise runs a current of spend. Ivalua turns it into intelligence, leverage, and value.">
+<meta property="og:title" content="Ivalua — Make Your Spend Matter">
+<meta property="og:description" content="The Enterprise AI Platform for Procurement, reimagined as a living current of light.">
+<meta property="og:image" content="assets/og-current.jpg">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M16 2c0 7.7-6.3 14-14 14 7.7 0 14 6.3 14 14 0-7.7 6.3-14 14-14-7.7 0-14-6.3-14-14z' fill='%2329ABC4'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anybody:wdth,wght@50..150,100..900&family=Archivo:wght@300;400;500;600&family=Spline+Sans+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/main.css">
+<meta name="twitter:card" content="summary_large_image">
+<meta property="og:type" content="website">
+<noscript><style>
+  [data-reveal], .hero__word, [data-w2] { opacity: 1 !important; transform: none !important; }
+  .veil { display: none !important; }
+  .shift__st { position: relative !important; top: auto !important; transform: none !important; margin-bottom: 1.2em; }
+  .shift__st .sw { opacity: 1 !important; }
+  .shift__pin, .platform__pin { height: auto !important; padding: 120px var(--pad-x) !important; }
+  .platform__track { width: auto !important; flex-wrap: wrap; padding: 0 !important; }
+</style></noscript>
+</head>
+<body data-theme="void">
+
+<a class="skip" href="#main">Skip to content</a>
+
+<!-- ===== Loader veil ===== -->
+<div class="veil" id="veil" aria-hidden="true">
+  <div class="veil__inner">
+    <svg class="veil__spark" viewBox="0 0 32 32" width="28" height="28"><path d="M16 2c0 7.7-6.3 14-14 14 7.7 0 14 6.3 14 14 0-7.7 6.3-14 14-14-7.7 0-14-6.3-14-14z" fill="currentColor"/></svg>
+    <span class="veil__count" id="veilCount">00</span>
+  </div>
+</div>
+
+<!-- ===== Fixed WebGL current ===== -->
+<canvas id="gl" aria-hidden="true"></canvas>
+<div class="grain" aria-hidden="true"></div>
+
+<!-- ===== Nav ===== -->
+<header class="nav" id="nav">
+  <a class="nav__brand" href="#" aria-label="Ivalua home">
+    <span class="wordmark">ivalua</span>
+    <svg class="spark" viewBox="0 0 32 32" width="13" height="13" aria-hidden="true"><path d="M16 2c0 7.7-6.3 14-14 14 7.7 0 14 6.3 14 14 0-7.7 6.3-14 14-14-7.7 0-14-6.3-14-14z" fill="currentColor"/></svg>
+  </a>
+  <nav class="nav__links" aria-label="Primary">
+    <a href="#iva">IVA</a>
+    <a href="#platform">Platform</a>
+    <a href="#proof">Proof</a>
+    <a href="guide/" class="nav__guide">Guide</a>
+  </nav>
+  <a class="btn btn--ghost nav__cta" href="#contact">Book a demo</a>
+</header>
+
+<main id="main">
+
+  <!-- ===== HERO ===== -->
+  <section class="hero" id="hero" data-current="1">
+    <p class="hero__eyebrow mono" data-reveal>The enterprise AI platform for procurement</p>
+    <h1 class="hero__title" aria-label="Make your spend matter">
+      <span class="hero__line"><span class="hero__word" data-w>MAKE</span></span>
+      <span class="hero__line"><span class="hero__word hero__word--accent" data-w>YOUR&nbsp;SPEND</span></span>
+      <span class="hero__line"><span class="hero__word" data-w>MATTER</span></span>
+    </h1>
+    <div class="hero__foot">
+      <p class="hero__sub" data-reveal>Beneath every enterprise runs a current of spend.
+      Ivalua turns it into intelligence, leverage, and value, with AI that works the way procurement does.</p>
+      <div class="hero__ctas" data-reveal>
+        <a class="btn btn--solid" href="#contact">Book a demo</a>
+        <a class="btn btn--line" href="#shift">Follow the current<span class="btn__arrow" aria-hidden="true">↓</span></a>
+      </div>
+    </div>
+    <div class="hero__meta mono" aria-hidden="true">
+      <span data-reveal>SPEND UNDER MANAGEMENT — $2.1T</span>
+      <span data-reveal>48.73°N 2.27°E · MASSY — 37.48°N 122.23°W · REDWOOD CITY</span>
+    </div>
+  </section>
+
+  <!-- ===== TICKER ===== -->
+  <div class="ticker" aria-hidden="true">
+    <div class="ticker__track" id="tickerTrack">
+      <span class="ticker__set">
+        600+ OF THE WORLD'S MOST ADMIRED BRANDS <i class="tick-spark">✦</i>
+        $2.1 TRILLION IN SPEND <i class="tick-spark">✦</i>
+        98% CUSTOMER RETENTION <i class="tick-spark">✦</i>
+        A GARTNER® MAGIC QUADRANT™ LEADER <i class="tick-spark">✦</i>
+        70+ COUNTRIES <i class="tick-spark">✦</i>
+        #LOVEPROCUREMENT <i class="tick-spark">✦</i>
+      </span>
+    </div>
+  </div>
+
+  <!-- ===== THE SHIFT (pinned narrative) ===== -->
+  <section class="shift" id="shift">
+    <div class="shift__pin">
+      <p class="shift__label mono">THE SHIFT — 01/03</p>
+      <div class="shift__stage">
+        <p class="shift__st" data-shift>For decades, procurement was asked a single question: <em>how much did we save?</em></p>
+        <p class="shift__st" data-shift>The question has changed. Boards now ask: <em>how much are we worth?</em></p>
+        <p class="shift__st" data-shift>Answering it takes more than software. It takes an <em>operating system for value.</em></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== IVA ===== -->
+  <section class="iva" id="iva">
+    <div class="iva__head">
+      <p class="eyebrow eyebrow--ember mono" data-reveal>MEET IVA</p>
+      <h2 class="h2" data-reveal>An agent<br>in the current.</h2>
+      <p class="lede" data-reveal>IVA is Ivalua's agentic AI. It reads your spend, contracts, and suppliers in
+      context, then acts inside your guardrails: drafting sourcing events, flagging risk, chasing
+      invoices, answering the questions your team asks at 5pm on a Friday.</p>
+    </div>
+    <div class="iva__body">
+      <figure class="iva__relic" data-parallax>
+        <img id="relicImg" src="assets/relic.webp" width="2048" height="2048" alt="An obsidian glass torus knot lit from within by molten amber light: IVA, the agent inside the platform." loading="lazy" decoding="async">
+        <figcaption class="mono">FIG. 01 — THE AGENT, RENDERED</figcaption>
+      </figure>
+      <div class="iva__console" role="img" aria-label="IVA console: asked which suppliers put the Q3 launch at risk, IVA identifies two at-risk suppliers and proposes mitigations.">
+        <div class="console__bar mono"><span class="console__dot"></span>IVA CONSOLE — LIVE</div>
+        <div class="console__log" id="consoleLog">
+          <p class="console__q mono" data-type>Which suppliers put our Q3 launch at risk?</p>
+          <div class="console__a" data-answer>
+            <p class="console__ln"><span class="mono console__k">RISK·HIGH</span> Meridian Polymers — force majeure clause triggered, 3 open POs</p>
+            <p class="console__ln"><span class="mono console__k">RISK·MED</span> Kestrel Logistics — OTD slipped 11% this quarter</p>
+            <p class="console__ln console__act"><span class="mono console__k console__k--act">ACTION</span> Draft dual-source RFQ from 4 qualified alternates? <span class="console__yes">Yes, draft it →</span></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== PLATFORM (horizontal gallery) ===== -->
+  <section class="platform" id="platform">
+    <div class="platform__pin">
+      <div class="platform__head">
+        <p class="eyebrow mono" data-reveal>ONE PLATFORM, SOURCE TO PAY</p>
+        <h2 class="h2" data-reveal>Four chambers,<br>one current.</h2>
+      </div>
+      <div class="platform__track" id="platformTrack">
+        <article class="plate" data-plate>
+          <span class="plate__idx mono">01</span>
+          <svg class="plate__glyph" viewBox="0 0 64 64" aria-hidden="true"><circle cx="20" cy="32" r="12"/><circle cx="44" cy="32" r="12"/><path d="M32 24v16"/></svg>
+          <h3 class="plate__title">Source to Contract</h3>
+          <p class="plate__copy">Find, negotiate, and contract with the right suppliers. Sourcing events that write themselves, contracts that read themselves.</p>
+          <p class="plate__foot mono">RFX · AUCTIONS · CLM</p>
+        </article>
+        <article class="plate" data-plate>
+          <span class="plate__idx mono">02</span>
+          <svg class="plate__glyph" viewBox="0 0 64 64" aria-hidden="true"><path d="M12 20h40M12 32h40M12 44h24"/><circle cx="48" cy="44" r="6"/></svg>
+          <h3 class="plate__title">Procure to Pay</h3>
+          <p class="plate__copy">Every order, invoice, and payment in one flow. Touchless where it should be, human where it must be.</p>
+          <p class="plate__foot mono">REQ · PO · INVOICE · PAY</p>
+        </article>
+        <article class="plate" data-plate>
+          <span class="plate__idx mono">03</span>
+          <svg class="plate__glyph" viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="20"/><circle cx="32" cy="32" r="8"/><path d="M32 4v8M32 52v8M4 32h8M52 32h8"/></svg>
+          <h3 class="plate__title">Supplier &amp; Risk</h3>
+          <p class="plate__copy">A 360° view of every supplier: performance, ESG, financial health, before risk becomes cost.</p>
+          <p class="plate__foot mono">360° · ESG · RESILIENCE</p>
+        </article>
+        <article class="plate" data-plate>
+          <span class="plate__idx mono">04</span>
+          <svg class="plate__glyph" viewBox="0 0 64 64" aria-hidden="true"><path d="M8 52V28M24 52V12M40 52V36M56 52V20"/></svg>
+          <h3 class="plate__title">Spend &amp; Analytics</h3>
+          <p class="plate__copy">See the whole current. Classified, enriched, and queryable spend, down to any single drop.</p>
+          <p class="plate__foot mono">CLASSIFY · FORECAST · ACT</p>
+        </article>
+      </div>
+      <p class="platform__hint mono" aria-hidden="true">SCROLL →</p>
+    </div>
+  </section>
+
+  <!-- ===== PROOF (light interlude) ===== -->
+  <section class="proof" id="proof">
+    <svg class="proof__spark" viewBox="0 0 32 32" aria-hidden="true"><path d="M16 2c0 7.7-6.3 14-14 14 7.7 0 14 6.3 14 14 0-7.7 6.3-14 14-14-7.7 0-14-6.3-14-14z" fill="currentColor"/></svg>
+    <p class="eyebrow eyebrow--dark mono" data-reveal>IN THEIR WORDS</p>
+    <blockquote class="proof__quote" data-reveal>
+      <p>“We didn't buy a tool. We changed what procurement <em>means</em> here.”</p>
+      <cite class="mono">CHIEF PROCUREMENT OFFICER — GLOBAL 500 MANUFACTURER</cite>
+    </blockquote>
+    <div class="proof__fields mono" data-reveal>
+      <span>MANUFACTURING</span><span>PUBLIC SECTOR</span><span>FINANCIAL SERVICES</span><span>DEFENSE</span><span>ENERGY</span><span>RETAIL</span><span>HEALTHCARE</span>
+    </div>
+  </section>
+
+  <!-- ===== MEASURE (stats ledger) ===== -->
+  <section class="measure" id="measure">
+    <p class="eyebrow mono" data-reveal>THE CURRENT, MEASURED</p>
+    <dl class="ledger">
+      <div class="ledger__row" data-reveal>
+        <dt>Brands running on Ivalua</dt>
+        <dd><span class="num" data-count="600" data-suffix="+">0</span></dd>
+      </div>
+      <div class="ledger__row ledger__row--key" data-reveal>
+        <dt>Spend under management</dt>
+        <dd><span class="num" data-count="2.1" data-prefix="$" data-suffix="T" data-dec="1">0</span></dd>
+      </div>
+      <div class="ledger__row" data-reveal>
+        <dt>Customer retention</dt>
+        <dd><span class="num" data-count="98" data-suffix="%">0</span></dd>
+      </div>
+      <div class="ledger__row" data-reveal>
+        <dt>Countries in the network</dt>
+        <dd><span class="num" data-count="70" data-suffix="+">0</span></dd>
+      </div>
+    </dl>
+  </section>
+
+  <!-- ===== CTA ===== -->
+  <section class="cta" id="contact" data-current="1">
+    <h2 class="cta__title">
+      <span class="hero__line"><span class="hero__word" data-w2>STEP&nbsp;INTO</span></span>
+      <span class="hero__line"><span class="hero__word hero__word--accent" data-w2>THE&nbsp;CURRENT</span></span>
+    </h2>
+    <div class="cta__actions" data-reveal>
+      <a class="btn btn--solid btn--lg" href="mailto:hello@ivalua.com">Book a demo</a>
+      <p class="cta__note mono">30 MINUTES · YOUR DATA · NO SLIDES</p>
+    </div>
+  </section>
+
+</main>
+
+<!-- ===== FOOTER ===== -->
+<footer class="footer">
+  <div class="footer__brand">
+    <span class="wordmark wordmark--lg">ivalua</span>
+    <svg class="spark" viewBox="0 0 32 32" width="16" height="16" aria-hidden="true"><path d="M16 2c0 7.7-6.3 14-14 14 7.7 0 14 6.3 14 14 0-7.7 6.3-14 14-14-7.7 0-14-6.3-14-14z" fill="currentColor"/></svg>
+  </div>
+  <div class="footer__cols">
+    <div class="footer__col">
+      <p class="mono footer__h">PLATFORM</p>
+      <a href="#platform">Source to Contract</a>
+      <a href="#platform">Procure to Pay</a>
+      <a href="#platform">Supplier &amp; Risk</a>
+      <a href="#platform">Spend &amp; Analytics</a>
+    </div>
+    <div class="footer__col">
+      <p class="mono footer__h">COMPANY</p>
+      <a href="#proof">Customers</a>
+      <a href="#measure">By the numbers</a>
+      <a href="#iva">IVA</a>
+      <a href="guide/">Design guide</a>
+    </div>
+    <div class="footer__col footer__col--note">
+      <p class="mono footer__h">THIS REDESIGN</p>
+      <p class="footer__note">A capability study designed and built end-to-end by Claude (Fable 5).
+      Every shader, glyph, and easing curve is documented in <a href="guide/">the guide</a>.</p>
+    </div>
+  </div>
+  <div class="footer__base mono">
+    <span>© 2026 IVALUA — MASSY · REDWOOD CITY</span>
+    <span>#LOVEPROCUREMENT</span>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
+<script src="js/main.js" defer></script>
+</body>
+</html>
